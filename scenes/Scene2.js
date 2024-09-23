@@ -212,7 +212,7 @@ export default class Scene2 extends Phaser.Scene {
         this.timerWorker.postMessage('reset');
 
         // Mostrar el mensaje de "Has perdido"
-        this.messageWorker.postMessage({ message: '¡Has perdido!' });
+        this.messageWorker.postMessage({ message: 'Dead! try again' });
 
     }
 
@@ -261,10 +261,22 @@ export default class Scene2 extends Phaser.Scene {
 
     showMessage(text) {
 
-        this.messageText = this.add.text(config.width / 2, config.height / 2, text, {
-            fontSize: '32px',
-            fill: '#ff0000'
-        }).setOrigin(0, 0);
+        this.messageText = this.add.bitmapText(config.width / 2, config.height / 2, "pixelFont", text, 40)
+            .setOrigin(0.5, 0.5)
+            .setTint(0xff0000) 
+            .setAlpha(1); 
+
+        this.messageText.setStroke('#ffffff', 8); 
+        this.messageText.setShadow(2, 2, '#333333', 2, true, true);
+
+        this.tweens.add({
+            targets: this.messageText,
+            alpha: 0, 
+            yoyo: true,
+            repeat: -1,
+            ease: 'Sine.easeInOut',
+            duration: 500 
+        });
 
     }
 
